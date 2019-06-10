@@ -25,7 +25,7 @@
     @brief  Abstract away platform differences in Arduino wire library
 */
 /**************************************************************************/
-uint8_t Adafruit_ADS1015::i2cread(void) {
+uint8_t ads1015::i2cread(void) {
   uint8_t buf ;
   read(_i2cdev,&buf,1);
   return buf;
@@ -36,7 +36,7 @@ uint8_t Adafruit_ADS1015::i2cread(void) {
     @brief  Abstract away platform differences in Arduino wire library
 */
 /**************************************************************************/
-void Adafruit_ADS1015::i2cwrite(uint8_t x) {
+void ads1015::i2cwrite(uint8_t x) {
   write(_i2cdev,&x,1);
   return ;
 }
@@ -46,7 +46,7 @@ void Adafruit_ADS1015::i2cwrite(uint8_t x) {
     @brief  Writes 16-bits to the specified destination register
 */
 /**************************************************************************/
-void Adafruit_ADS1015::writeRegister(uint8_t i2cAddress, uint8_t reg, uint16_t value) {
+void ads1015::writeRegister(uint8_t i2cAddress, uint8_t reg, uint16_t value) {
   i2cwrite(reg); //register
   usleep(10);
   i2cwrite((value>>8));
@@ -58,7 +58,7 @@ void Adafruit_ADS1015::writeRegister(uint8_t i2cAddress, uint8_t reg, uint16_t v
     @brief  Writes 16-bits to the specified destination register
 */
 /**************************************************************************/
-uint16_t Adafruit_ADS1015::readRegister(uint8_t i2cAddress, uint8_t reg) {
+uint16_t ads1015::readRegister(uint8_t i2cAddress, uint8_t reg) {
   i2cwrite(ADS1015_REG_POINTER_CONVERT);
   usleep(10);
   i2cwrite(reg);
@@ -72,7 +72,7 @@ uint16_t Adafruit_ADS1015::readRegister(uint8_t i2cAddress, uint8_t reg) {
     @brief  Instantiates a new ADS1015 class w/appropriate properties
 */
 /**************************************************************************/
-Adafruit_ADS1015::Adafruit_ADS1015(uint8_t i2cAddress) 
+ads1015::ads1015(uint8_t i2cAddress) 
 {
    m_i2cAddress = i2cAddress;
    m_conversionDelay = ADS1015_CONVERSIONDELAY;
@@ -85,7 +85,7 @@ Adafruit_ADS1015::Adafruit_ADS1015(uint8_t i2cAddress)
     @brief  Instantiates a new ADS1115 class w/appropriate properties
 */
 /**************************************************************************/
-Adafruit_ADS1115::Adafruit_ADS1115(uint8_t i2cAddress)
+ads1115::ads1115(uint8_t i2cAddress)
 {
    m_i2cAddress = i2cAddress;
    m_conversionDelay = ADS1115_CONVERSIONDELAY;
@@ -98,7 +98,7 @@ Adafruit_ADS1115::Adafruit_ADS1115(uint8_t i2cAddress)
     @brief  Sets up the HW (reads coefficients values, etc.)
 */
 /**************************************************************************/
-void Adafruit_ADS1015::begin() {
+void ads1015::begin() {
   _i2cdev = open(I2C_FILE,O_RDWR);
   if (_i2cdev < 0)
     {
@@ -116,7 +116,7 @@ void Adafruit_ADS1015::begin() {
     @brief  Sets the gain and input voltage range
 */
 /**************************************************************************/
-void Adafruit_ADS1015::setGain(adsGain_t gain)
+void ads1015::setGain(adsGain_t gain)
 {
   m_gain = gain;
 }
@@ -126,7 +126,7 @@ void Adafruit_ADS1015::setGain(adsGain_t gain)
     @brief  Gets a gain and input voltage range
 */
 /**************************************************************************/
-adsGain_t Adafruit_ADS1015::getGain()
+adsGain_t ads1015::getGain()
 {
   return m_gain;
 }
@@ -136,7 +136,7 @@ adsGain_t Adafruit_ADS1015::getGain()
     @brief  Gets a single-ended ADC reading from the specified channel
 */
 /**************************************************************************/
-uint16_t Adafruit_ADS1015::readADC_SingleEnded(uint8_t channel) {
+uint16_t ads1015::readADC_SingleEnded(uint8_t channel) {
   if (channel > 3)
   {
     return 0;
@@ -192,7 +192,7 @@ uint16_t Adafruit_ADS1015::readADC_SingleEnded(uint8_t channel) {
             positive or negative.
 */
 /**************************************************************************/
-int16_t Adafruit_ADS1015::readADC_Differential_0_1() {
+int16_t ads1015::readADC_Differential_0_1() {
   // Start with default values
   uint16_t config = ADS1015_REG_CONFIG_CQUE_NONE    | // Disable the comparator (default val)
                     ADS1015_REG_CONFIG_CLAT_NONLAT  | // Non-latching (default val)
@@ -243,7 +243,7 @@ int16_t Adafruit_ADS1015::readADC_Differential_0_1() {
             positive or negative.
 */
 /**************************************************************************/
-int16_t Adafruit_ADS1015::readADC_Differential_2_3() {
+int16_t ads1015::readADC_Differential_2_3() {
   // Start with default values
   uint16_t config = ADS1015_REG_CONFIG_CQUE_NONE    | // Disable the comparator (default val)
                     ADS1015_REG_CONFIG_CLAT_NONLAT  | // Non-latching (default val)
@@ -295,7 +295,7 @@ int16_t Adafruit_ADS1015::readADC_Differential_2_3() {
             This will also set the ADC in continuous conversion mode.
 */
 /**************************************************************************/
-void Adafruit_ADS1015::startComparator_SingleEnded(uint8_t channel, int16_t threshold)
+void ads1015::startComparator_SingleEnded(uint8_t channel, int16_t threshold)
 {
   // Start with default values
   uint16_t config = ADS1015_REG_CONFIG_CQUE_1CONV   | // Comparator enabled and asserts on 1 match
@@ -341,7 +341,7 @@ void Adafruit_ADS1015::startComparator_SingleEnded(uint8_t channel, int16_t thre
             results without changing the config value.
 */
 /**************************************************************************/
-int16_t Adafruit_ADS1015::getLastConversionResults()
+int16_t ads1015::getLastConversionResults()
 {
   // Wait for the conversion to complete
   usleep(m_conversionDelay*1000);
