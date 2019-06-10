@@ -80,6 +80,10 @@ ads1015::ads1015(uint8_t i2cAddress)
    m_gain = GAIN_TWOTHIRDS; /* +/- 6.144V range (limited to VDD +0.3V max!) */
 }
 
+ads1015::~ads1015(){
+  close(_i2cdev);
+}
+
 /**************************************************************************/
 /*!
     @brief  Instantiates a new ADS1115 class w/appropriate properties
@@ -91,6 +95,10 @@ ads1115::ads1115(uint8_t i2cAddress)
    m_conversionDelay = ADS1115_CONVERSIONDELAY;
    m_bitShift = 0;
    m_gain = GAIN_TWOTHIRDS; /* +/- 6.144V range (limited to VDD +0.3V max!) */
+}
+
+ads1115::~ads1115(){
+  close(_i2cdev);
 }
 
 /**************************************************************************/

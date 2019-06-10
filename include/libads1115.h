@@ -140,6 +140,7 @@ protected:
    adsGain_t m_gain;
 
  public:
+  int _i2cdev ; //I2C Device File Descriptor
   ads1015(uint8_t i2cAddress = ADS1015_ADDRESS);
   void begin(void);
   uint16_t  readADC_SingleEnded(uint8_t channel);
@@ -149,9 +150,9 @@ protected:
   int16_t   getLastConversionResults();
   void      setGain(adsGain_t gain);
   adsGain_t getGain(void);
+  ~ads1015();
 
  private:
-    int _i2cdev ; //I2C Device File Descriptor
     uint8_t i2cread(void);
     void i2cwrite(uint8_t);
     uint16_t readRegister(uint8_t, uint8_t);
@@ -163,6 +164,7 @@ class ads1115 : public ads1015
 {
  public:
   ads1115(uint8_t i2cAddress = ADS1015_ADDRESS);
+  ~ads1115();
 
  private:
 };
