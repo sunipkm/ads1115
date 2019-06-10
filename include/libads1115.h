@@ -151,8 +151,6 @@ protected:
   void      setGain(adsGain_t gain);
   adsGain_t getGain(void);
   ~ads1015();
-
- private:
     uint8_t i2cread(void);
     void i2cwrite(uint8_t);
     uint16_t readRegister(uint8_t, uint8_t);
