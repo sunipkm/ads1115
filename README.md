@@ -1,35 +1,26 @@
-Adafruit_ADS1015
-================
+# ADS1115 Driver for Linux
 
-Driver for TI's ADS1015: 12-bit Differential or Single-Ended ADC with PGA and Comparator
-<!-- START COMPATIBILITY TABLE -->
+I2C Interface driver for [Texas Instruments ADS1115 ADC](http://www.ti.com/lit/ds/symlink/ads1113.pdf).
 
-## Compatibility
+## How to get:
 
-MCU                | Tested Works | Doesn't Work | Not Tested  | Notes
------------------- | :----------: | :----------: | :---------: | -----
-Atmega328 @ 16MHz  |      X       |             |            | 
-Atmega328 @ 12MHz  |      X       |             |            | 
-Atmega32u4 @ 16MHz |      X       |             |            | Use SDA/SCL on pins D2 &amp; D3
-Atmega32u4 @ 8MHz  |      X       |             |            | Use SDA/SCL on pins D2 &amp; D3
-ESP8266            |      X       |             |            | SDA/SCL default to pins 4 &amp; 5 but any two pins can be assigned as SDA/SCL using Wire.begin(SDA,SCL)
-Atmega2560 @ 16MHz |      X       |             |            | Use SDA/SCL on pins 20 &amp; 21
-ATSAM3X8E          |      X       |             |            | Use SDA/SCL on pins 20 &amp; 21
-ATSAM21D           |      X       |             |            | 
-ATtiny85 @ 16MHz   |      X       |             |            | Use 0 for SDA, 2 for SCL
-ATtiny85 @ 8MHz    |      X       |             |            | Use 0 for SDA, 2 for SCL
-Intel Curie @ 32MHz |             |             |     X       | 
-STM32F2            |             |             |     X       | 
+On command line, execute `git clone https://github.com/sunipkmukherjee/ads1115_linux`
 
-  * ATmega328 @ 16MHz : Arduino UNO, Adafruit Pro Trinket 5V, Adafruit Metro 328, Adafruit Metro Mini
-  * ATmega328 @ 12MHz : Adafruit Pro Trinket 3V
-  * ATmega32u4 @ 16MHz : Arduino Leonardo, Arduino Micro, Arduino Yun, Teensy 2.0
-  * ATmega32u4 @ 8MHz : Adafruit Flora, Bluefruit Micro
-  * ESP8266 : Adafruit Huzzah
-  * ATmega2560 @ 16MHz : Arduino Mega
-  * ATSAM3X8E : Arduino Due
-  * ATSAM21D : Arduino Zero, M0 Pro
-  * ATtiny85 @ 16MHz : Adafruit Trinket 5V
-  * ATtiny85 @ 8MHz : Adafruit Gemma, Arduino Gemma, Adafruit Trinket 3V
+## How to build:
 
-<!-- END COMPATIBILITY TABLE -->
+After cloning the repository, `cd` into the directory and execute `make`.
+This will build the shared library `libads1115.so` that you can link with other executables in the `build` directory, along with a test
+program.
+The shared library can be installed (default location `/usr/local`) by executing `make install` with required permissions.
+The example program can be executed by running `sudo make test`.
+
+You can execute `make clean` to delete the objects, and `make spotless` to restore the directory to original state.
+You can execute `make uninstall` with appropriate permissions to delete the installed library from default location.
+
+By default, the library is built to access I2C bus using `/dev/i2c-1` which is the default I2C bus address on
+a Raspberry Pi. However, this address can be changed in the `I2C_FILE` variable in `include/libads1115.h` or passed along at compile time.
+
+Note: Since the variable is passed to the preprocessor through make, it should be in the following format:
+```
+make CXXFLAGS="-DI2C_FILE=\\\"/path/to/i2c\\\""
+```
